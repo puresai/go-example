@@ -1,0 +1,15 @@
+name: demo2-gin-frame
+db:
+  name: blog
+  host: 127.0.0.1:3306
+  username: root
+  password: 111111
+  charset: utf8mb4
+  MaxIdleConns: 10
+  MaxOpenConns: 2
+redis:
+  host: 127.0.0.1
+  port: 6379
+  auth:
+mode: debug
+addr: :8080
