@@ -10,35 +10,34 @@ import (
     "github.com/spf13/viper"
 )
 
-type MySqlPool struct {}
-
-var instance *MySqlPool
 var once sync.Once
-
-var db *orm.DB
 var err error 
+var db *orm.DB
 
 // 单例模式
-func GetInstance() *MySqlPool {
+func GetDB() *orm.DB {
     once.Do(func() {
-        instance = &MySqlPool{}
+        db = openPool()
     })
 
-    return instance
+    return db
 }
 
-func (pool *MySqlPool) InitPool() (isSuc bool) {
+func openPool() *orm.DB {
 	// 这里有一种常见的拼接字符串的方式
     dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=%s", viper.GetString("db.username"), viper.GetString("db.password"), viper.GetString("db.host"), viper.GetString("db.name"), viper.GetString("db.charset"))
-    db, err = orm.Open("mysql", dsn)
+    db, err := orm.Open("mysql", dsn)
     if err != nil {
         panic(errors.New("mysql连接失败"))
-        return false
     }
 
     // 连接数配置也可以写入配置，在此读取
     db.DB().SetMaxIdleConns(viper.GetInt("db.MaxIdleConns"))
     db.DB().SetMaxOpenConns(viper.GetInt("db.MaxOpenConns"))
-    // db.LogMode(true)
-    return true
+    db.LogMode(true)
+    return db
+}
+
+func CloseDB(db *orm.DB)  {
+	db.Close()
 }

@@ -13,3 +13,8 @@ redis:
   auth:
 mode: debug
 addr: :8080
+log:
+  level: debug
+  file_format: "%Y%m%d"
+  max_save_days: 30
+  file_type: one #one, level

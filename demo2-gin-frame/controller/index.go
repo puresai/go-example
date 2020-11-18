@@ -25,3 +25,7 @@ func ApiResponse(c *gin.Context, code int, message string, data interface{}) {
 func Index(c *gin.Context) {
     ApiResponse(c, 0, "success", nil)
 }
+
+func HealthCheck(c *gin.Context) {
+    ApiResponse(c, 0, "success", nil)
+}

@@ -16,6 +16,7 @@ func Load(g *gin.Engine) *gin.Engine {
     })
 
     g.GET("/", controller.Index)
+    g.GET("/healthCheck", controller.HealthCheck)
 
     return g
 }
