@@ -4,7 +4,7 @@ package main
 import (
 	"fmt"
 	"time"
-	"errors"
+	"strconv"
 	"net/http"
 
     "github.com/spf13/pflag"
@@ -30,8 +30,8 @@ func main() {
         panic(err)
 	}
 
-	// logger.Info("i'm log123-----Info")
-	// logger.Error("i'm log123-----Error")
+	logger.Info("i'm log123-----Info")
+	logger.Error("i'm log123-----Error")
 
 	
 	// 连接mysql数据库
@@ -41,36 +41,50 @@ func main() {
 	// redis
 	db.InitRedis()
 
+	go func() {
+		pingServer()
+	}()
+
 	gin.SetMode(viper.GetString("mode"))
 	g := gin.New()
 	g = router.Load(g)
 
 	// g.Run(viper.GetString("addr"))
 
-	go func() {
-		if err := pingServer(); err != nil {
-			fmt.Println("fail:健康检测失败", err)
-		}
-		fmt.Println("success:健康检测成功")
-	}()
 
-	logger.Info("启动http服务端口%s\n", viper.GetString("addr"))
+	// logger.Info("启动http服务端口%s\n", viper.GetString("addr"))
 
+	// time.Sleep(2*time.Second)
 	if err := graceful.ListenAndServe(viper.GetString("addr"), g); err != nil && err != http.ErrServerClosed {
 		logger.Error("fail:http服务启动失败: %s\n", err)
 	}
 }
 
 // 健康检查
-func pingServer() error {
+// func pingServer() error {
+// 	for i := 0; i < viper.GetInt("max_ping_count"); i++ {
+// 		url := fmt.Sprintf("%s%s%s", "http://127.0.0.1", viper.GetString("addr"), viper.GetString("healthCheck"))
+// 		fmt.Println(url)
+// 		resp, err := http.Get(url)
+// 		if err == nil && resp.StatusCode == 200 {
+// 			return nil
+// 		}
+// 		time.Sleep(time.Second)
+// 	}
+// 	return errors.New("健康检测404")
+// }
+
+// 健康检查
+func pingServer() {
 	for i := 0; i < viper.GetInt("max_ping_count"); i++ {
 		url := fmt.Sprintf("%s%s%s", "http://127.0.0.1", viper.GetString("addr"), viper.GetString("healthCheck"))
-		fmt.Println(url)
 		resp, err := http.Get(url)
 		if err == nil && resp.StatusCode == 200 {
-			return nil
+			fmt.Println("health check success!")
+			return
 		}
+		fmt.Println("check fail -" + strconv.Itoa(i+1)+"times")
 		time.Sleep(time.Second)
 	}
-	return errors.New("健康检测404")
+	fmt.Println("Cannot connect to the router!!!")
 }

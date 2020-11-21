@@ -13,6 +13,7 @@ redis:
   auth:
 mode: debug
 addr: :8080
+max_ping_count: 4
 log:
   level: debug
   file_format: "%Y%m%d"
