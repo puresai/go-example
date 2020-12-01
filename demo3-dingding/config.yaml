@@ -1,0 +1,17 @@
+name: demo3-dingding
+redis:
+  host: 127.0.0.1
+  port: 6379
+  auth:
+  db: 5
+mode: debug
+addr: :8080
+healthCheck: /healthCheck
+max_ping_count: 4
+log:
+  level: debug
+  file_format: "%Y%m%d"
+  max_save_days: 30
+  file_type: one #one, level
+dingding_url: https://oapi.dingtalk.com/robot/send?access_token=15268baca04e0602b3d0fcb81f7b88eea93f4451e25a3e799f13bd32e08ed02d
+robot_api: http://api.qingyunke.com/api.php?key=free&appid=0&msg=%s
