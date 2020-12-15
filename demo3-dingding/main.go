@@ -58,20 +58,6 @@ func main() {
 }
 
 // 健康检查
-// func pingServer() error {
-// 	for i := 0; i < viper.GetInt("max_ping_count"); i++ {
-// 		url := fmt.Sprintf("%s%s%s", "http://127.0.0.1", viper.GetString("addr"), viper.GetString("healthCheck"))
-// 		fmt.Println(url)
-// 		resp, err := http.Get(url)
-// 		if err == nil && resp.StatusCode == 200 {
-// 			return nil
-// 		}
-// 		time.Sleep(time.Second)
-// 	}
-// 	return errors.New("健康检测404")
-// }
-
-// 健康检查
 func pingServer() {
 	for i := 0; i < viper.GetInt("max_ping_count"); i++ {
 		url := fmt.Sprintf("%s%s%s", "http://127.0.0.1", viper.GetString("addr"), viper.GetString("healthCheck"))
