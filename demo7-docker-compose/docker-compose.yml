@@ -1,0 +1,36 @@
+version: '2.1'
+services:
+  user13:
+    image: user-alpine
+    depends_on: 
+      - redis
+      - mysql
+    ports:
+      - "8088:8088"
+    links: 
+      - redis
+      - mysql
+    networks:
+      - user
+  mysql:
+    image: mysql-for-user
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=111111
+    networks:
+      - user
+    restart: always
+  redis:
+    image: redis:5.0
+    ports:
+      - "6379:6379"
+    expose:
+      - "6379"
+    networks:
+      - user
+networks:
+  user:
+    driver: bridge
