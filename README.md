@@ -7,3 +7,5 @@
 3. 防止漏打卡，利用gin和cron做一个智能提醒
 4. grpc
 5. 面向对象小demo
+6. go-kit
+7. docker构建会员注册服务
