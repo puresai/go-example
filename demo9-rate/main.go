@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"time"
@@ -8,7 +9,28 @@ import (
 	"golang.org/x/time/rate"
 )
 
+func wait() {
+	l := rate.NewLimiter(2, 1)
+	c, _ := context.WithCancel(context.TODO())
+	for {
+		l.Wait(c)
+		fmt.Println(time.Now().Format("04:05"))
+	}
+}
+
+func reserve() {
+	l := rate.NewLimiter(3, 1)
+	for {
+		r := l.ReserveN(time.Now(), 1)
+		s := r.Delay()
+		time.Sleep(s)
+		fmt.Println("----", time.Now().Format("04:05.000"))
+	}
+}
+
 func main() {
+	go wait()
+	go reserve()
 	// ServeMux类型是HTTP请求的多路转接器。它会将每一个接收的请求的URL与一个注册模式的列表进行匹配，并调用和URL最匹配的模式的处理器。
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", defaultHttp)
