@@ -6,7 +6,7 @@ import (
 
 func main() {
 	client := models.GetClient()
-	client.Start()
+	// client.Start()
 	client.Near()
 	defer client.Close()
 }

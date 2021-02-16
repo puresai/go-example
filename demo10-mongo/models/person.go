@@ -101,40 +101,42 @@ func(mgo *mgo) Start() {
 }
 
 func (mgo *mgo) Near() {
-	collection := mgo.client.Database(DBName).Collection(CollectionName)
-	cur, err := collection.Find(context.TODO(), bson.D{
-		{Key, bson.D{
-				{"$near", bson.D{
-					{
-						"$geometry", Location{
-							"Point",
-							[]float64{120.110893,30.2078490},
-						},
+	collect := mgo.client.Database(DBName).Collection(CollectionName)
+	where := mongo.Pipeline{bson.D{ 
+		{
+			"$geoNear", bson.D{
+				{
+					"near", Location{
+						"Point",
+						[]float64{120.110893,30.2078490},
 					},
-					{"$maxDistance", 15000},
-				}},
-			}},
-	})
-
+				},
+				{"distanceField", "dist.calculated"},
+				{"minDistance", 2},
+				{"includeLocs", "dist.location"},
+				{"spherical", true},
+			},
+		},
+	}}
+	curr, err := collect.Aggregate(context.TODO(), where)
 	if err != nil {
-		fmt.Println(err)
-		return
+		log.Fatal(err)
 	}
-	var results []Point
 
-	for cur.Next(context.TODO()) {
-		var elem Point
-		err := cur.Decode(&elem)
+	fmt.Println(curr)
+	for curr.Next(context.TODO()) {
+		var elem interface{}
+		err := curr.Decode(&elem)
 		fmt.Println(elem)
-		fmt.Println(cur)
 		if err != nil {
 			fmt.Println("Could not decode Point")
 			return
 		}
 
-		results = append(results, elem)
+		// results = append(results, elem)
 	}
-	fmt.Println("查找到", len(results))
+	// fmt.Println("查找到", len(results))
+	
 }
 
 func(mgo *mgo) Close() {
