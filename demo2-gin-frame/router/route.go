@@ -1,11 +1,11 @@
 package router
 
 import (
-    "net/http"
+	"net/http"
 
-    "github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin"
 
-    "local.com/sai0556/demo2-gin-frame/controller"
+	"sai0556/demo2-gin-frame/controller"
 )
 
 func Load(g *gin.Engine) *gin.Engine {

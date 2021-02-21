@@ -3,19 +3,19 @@ package main
 // import 这里我习惯把官方库，开源库，本地module依次分开列出
 import (
 	"fmt"
-	"time"
-	"strconv"
 	"net/http"
+	"strconv"
+	"time"
 
-    "github.com/spf13/pflag"
-    "github.com/spf13/viper"
-    "github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin"
+	"github.com/spf13/pflag"
+	"github.com/spf13/viper"
 
-    "local.com/sai0556/demo2-gin-frame/config"
-    "local.com/sai0556/demo2-gin-frame/db"
-    "local.com/sai0556/demo2-gin-frame/router"
-    "local.com/sai0556/demo2-gin-frame/logger"
-    "local.com/sai0556/demo2-gin-frame/graceful"
+	"sai0556/demo2-gin-frame/config"
+	"sai0556/demo2-gin-frame/db"
+	"sai0556/demo2-gin-frame/graceful"
+	"sai0556/demo2-gin-frame/logger"
+	"sai0556/demo2-gin-frame/router"
 )
 
 var (
