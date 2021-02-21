@@ -13,7 +13,4 @@ require (
 	github.com/spf13/pflag v1.0.3
 	github.com/spf13/viper v1.7.1
 	go.uber.org/zap v1.10.0
-	local.com/sai0556/demo2-gin-frame v1.0.0
 )
-
-replace local.com/sai0556/demo2-gin-frame v1.0.0 => /Users/wangzetao/Work/golang/go-example/demo2-gin-frame
