@@ -1,6 +1,6 @@
 # go-example
 
-[具体示例说明与实现请查看专栏](https://www.zhihu.com/column/c_1307723910226960384)
+[具体示例说明与实现请查看专栏](https://github.13sai.com/categories/goexample/)
 
 1. [搭建http server](https://github.com/13sai/go-example/tree/main/demo1-http)
 2. [利用gin搭建一个api框架](https://github.com/13sai/go-example/tree/main/demo2-gin-frame)
